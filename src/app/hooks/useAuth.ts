@@ -12,7 +12,7 @@ const useAuth = () => {
 
     setAuthToken(token);
 
-    window.dispatchEvent(new Event("authTokenChange"));
+    window.dispatchEvent(new CustomEvent("authTokenUpdate"));
   };
 
   // Logout function to remove the token and clear the state
@@ -21,7 +21,7 @@ const useAuth = () => {
 
     setAuthToken(null);
 
-    window.dispatchEvent(new Event("authTokenChange"));
+    window.dispatchEvent(new CustomEvent("authTokenUpdate"));
   };
 
   // Listen for changes to localStorage across tabs
@@ -32,11 +32,19 @@ const useAuth = () => {
       }
     };
 
+    const AuthTokenUpdate = () => {
+      const token = localStorage.getItem("auth_token");
+
+      setAuthToken(token);
+    };
+
     window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("authTokenUpdate", AuthTokenUpdate);
 
     // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("storage", handleStorageChange);
+      window.addEventListener("authTokenUpdate", AuthTokenUpdate);
     };
   }, []);
 
