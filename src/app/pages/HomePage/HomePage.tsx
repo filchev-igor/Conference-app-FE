@@ -1,41 +1,53 @@
-import UserRolesButtons from "./UserRolesButtons.tsx";
-import { useState } from "react";
-import useUserRoleContext from "../../hooks/useUserRoleContext.ts";
+import { useLoginTokenCreate } from "../../api/login/queryHooks.ts";
+import HomePageLayout from "./HomePageLayout.tsx";
+import LoadingSpinner from "../../components/spinners/LoadingSpinner.tsx";
+import useAuth from "../../hooks/useAuth.ts";
 
 const HomePage = () => {
-  const { userRole, setUserRole } = useUserRoleContext();
+  const { mutateLoginTokenCreate, isLoginTokenCreating } =
+    useLoginTokenCreate();
 
-  const [isOpen, setIsOpen] = useState(true);
+  const { isAuthenticated, setToken } = useAuth();
 
-  const handleUserRoleButtonsOpen = () => {
-    setIsOpen(!isOpen);
+  const handleLoginTokenCreate = () => {
+    if (isLoginTokenCreating) {
+      return;
+    }
+
+    mutateLoginTokenCreate({
+      data: {
+        email: "user@example.com",
+        password: "password",
+      },
+      onSuccess: ({ access_token }) => setToken(access_token),
+    });
   };
 
-  const handleUserRoleChange = (newUserRole: string) => {
-    setUserRole(newUserRole);
-
-    setIsOpen(false);
-  };
-
-  return (
-    <div className={"grid grid-cols-1 sm:grid-cols-2 gap-5 place-items-center"}>
-      <div>
-        <strong>User role: </strong>
-        <span>{userRole}</span>
-      </div>
-
-      <div className={"w-full sm:w-fit"}>
+  if (!isAuthenticated) {
+    return (
+      <HomePageLayout>
         <button
           type={"button"}
-          onClick={handleUserRoleButtonsOpen}
+          onClick={handleLoginTokenCreate}
           className={"bg-sky-500 w-full sm:w-fit"}
         >
-          Change user role
+          {isLoginTokenCreating ? (
+            <>
+              <LoadingSpinner />
+              Processing...
+            </>
+          ) : (
+            "Authorize"
+          )}
         </button>
-      </div>
+      </HomePageLayout>
+    );
+  }
 
-      {isOpen && <UserRolesButtons onClick={handleUserRoleChange} />}
-    </div>
+  return (
+    <HomePageLayout>
+      <strong>You are authorized</strong>
+    </HomePageLayout>
   );
 };
 
