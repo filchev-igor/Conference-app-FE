@@ -19,7 +19,7 @@ const HomePage = () => {
         email: "user@example.com",
         password: "password",
       },
-      onSuccess: ({ access_token }) => setToken(access_token),
+      onSuccess: ({ access_token, user_id }) => setToken(access_token, user_id),
     });
   };
 

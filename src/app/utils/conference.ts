@@ -11,9 +11,7 @@ const generateRandomTime = (): string => {
   return `${hours}:${minutes} ${period}`;
 };
 
-export const generateRandomConference = (
-  previousId: number,
-): ConferenceType => {
+export const generateRandomConference = (): ConferenceType => {
   const conferenceTitle = faker.company.catchPhrase();
   const conferenceDate = faker.date.future().toDateString();
 
@@ -23,7 +21,6 @@ export const generateRandomConference = (
   }));
 
   return {
-    id: previousId + 1,
     title: conferenceTitle,
     date: conferenceDate,
     time: `${generateRandomTime()} - ${generateRandomTime()}`,

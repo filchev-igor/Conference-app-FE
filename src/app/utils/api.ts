@@ -8,11 +8,13 @@ export const fetchGet = async ({
   method?: "POST" | "PUT" | "PATCH" | "DELETE";
 }) => {
   const fullUrl = `${import.meta.env.VITE_API_URL}/${url}`;
+  const token = localStorage.getItem("auth_token");
 
   try {
     const response = await fetch(fullUrl, {
       headers: {
         "Content-Type": "application/json",
+        ...(url !== "login" && { Authorization: `Bearer ${token}` }),
       },
       ...(body?.length && { body }),
       ...(method?.length && { method }),

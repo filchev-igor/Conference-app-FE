@@ -28,3 +28,5 @@ const userData1 = {
 };
 
 export const userData = [userData1];
+
+export const USER_QUERY_KEY = "user";

@@ -1,33 +1,22 @@
-import useUserRoleContext from "../../hooks/useUserRoleContext.ts";
 import { generateRandomConference } from "../../utils/conference.ts";
-import useConferencesListContext from "../../hooks/useConferencesListContext.ts";
-import { useState } from "react";
 import LoadingSpinner from "../../components/spinners/LoadingSpinner.tsx";
+import { useUser } from "../../api/users/queryHooks.ts";
+import { useConferenceCreate } from "../../api/conferences/queryHooks.ts";
 
 const CreateConferenceButton = () => {
-  const { hasAdminRole } = useUserRoleContext();
-  const { conferencesList, handleConferenceListUpdate } =
-    useConferencesListContext();
+  //move to upper component!!!
+  const { hasAdminRole } = useUser();
+  const { mutateConferenceCreate, isConferenceCreating } =
+    useConferenceCreate();
 
-  const [isCreating, setIsCreating] = useState(false);
-
-  const handleConferenceAdd = () => {
-    if (isCreating) {
+  const handleConferenceCreate = () => {
+    if (isConferenceCreating) {
       return;
     }
 
-    setIsCreating(true);
+    const data = generateRandomConference();
 
-    const lastConferenceId =
-      conferencesList[conferencesList.length - 1]?.id ?? 0;
-
-    const newConferenceData = generateRandomConference(lastConferenceId);
-
-    setTimeout(() => {
-      handleConferenceListUpdate(newConferenceData);
-
-      setIsCreating(false);
-    }, 1_000);
+    mutateConferenceCreate({ data, onSuccess: () => {} });
   };
 
   if (!hasAdminRole) {
@@ -38,10 +27,10 @@ const CreateConferenceButton = () => {
     <div className={"sm:col-span-2 text-center w-full sm:w-fit"}>
       <button
         type={"button"}
-        className={`flex from-cyan-500 to-blue-500 bg-gradient-to-b w-full sm:w-fit ${isCreating ? "disabled" : ""}`}
-        onClick={handleConferenceAdd}
+        className={`flex from-cyan-500 to-blue-500 bg-gradient-to-b w-full sm:w-fit ${isConferenceCreating ? "disabled" : ""}`}
+        onClick={handleConferenceCreate}
       >
-        {isCreating ? (
+        {isConferenceCreating ? (
           <>
             <LoadingSpinner />
             Processing...

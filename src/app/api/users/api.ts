@@ -1,6 +1,6 @@
-import { fetchPost } from "../../utils/api.ts";
-import { CreateLoginTokenProps } from "../../types/userType.ts";
+import { fetchGet } from "../../utils/api.ts";
+import { UserType } from "../../types/userType.ts";
 
-export const loginTokenCreate = (data: CreateLoginTokenProps) => {
-  return fetchPost("login", data);
+export const getUser = (id: number): Promise<UserType> => {
+  return fetchGet({ url: `users/${id}` });
 };

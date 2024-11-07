@@ -1,23 +1,21 @@
 import { useMutation } from "react-query";
 import { loginTokenCreate } from "./api.ts";
-import { CreateLoginTokenProps } from "../../types/userType.ts";
+
+import {
+  CreateLoginTokenPromiseType,
+  CreateLoginTokenType,
+} from "../../types/loginType.ts";
 
 export const useLoginTokenCreate = () => {
   const { mutate, isLoading } = useMutation(
     ({
       data,
     }: {
-      data: CreateLoginTokenProps;
-      onSuccess: (outputData: {
-        access_token: string;
-        token_type: string;
-      }) => void;
+      data: CreateLoginTokenType;
+      onSuccess: (outputData: CreateLoginTokenPromiseType) => void;
     }) => loginTokenCreate(data),
     {
-      onSuccess: async (
-        outputData: { access_token: string; token_type: string },
-        { onSuccess },
-      ) => {
+      onSuccess: async (outputData, { onSuccess }) => {
         onSuccess(outputData);
       },
     },
