@@ -59,8 +59,6 @@ const PageLayout = () => {
           context={{
             userData,
             isUserDataLoading,
-            hasUserRole,
-            hasAdminRole,
             userConferences,
             handleUserConferencesChange,
             conferencesList,

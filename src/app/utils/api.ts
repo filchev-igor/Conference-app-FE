@@ -24,9 +24,13 @@ export const fetchGet = async ({
       throw new Error(`Response status: ${response.status}`);
     }
 
+    if (response.status === 204) {
+      return;
+    }
+
     return await response.json();
   } catch (error: any) {
-    console.error(error.message);
+    console.error(error);
   }
 };
 

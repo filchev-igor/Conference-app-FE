@@ -7,8 +7,13 @@ import ConferenceParticipants from "./ConferenceParticipants.tsx";
 import CreateConferenceButton from "./CreateConferenceButton.tsx";
 import UserConferencesList from "./UserConferencesList.tsx";
 import ConferencesList from "./ConferencesList.tsx";
+import { useConferenceDelete } from "../../api/conferences/queryHooks.ts";
+import ConferenceDeleteButton from "./ConferenceDeleteButton.tsx";
 
 const ConferencesPage = () => {
+  const { isConferenceDeleting, mutateConferenceDelete } =
+    useConferenceDelete();
+
   const [conferenceData, setConferenceData] = useState<ConferenceType | null>(
     null,
   );
@@ -23,6 +28,25 @@ const ConferencesPage = () => {
     setConferenceData(conference);
   };
 
+  const handleConferenceDelete = () => {
+    if (isConferenceDeleting) {
+      return;
+    }
+
+    const isConfirmed = confirm("Do you want to delete this conference?");
+
+    if (!isConfirmed) {
+      return;
+    }
+
+    mutateConferenceDelete({
+      conferenceId: conferenceData?.id ?? 0,
+      onSuccess: () => {
+        setConferenceData(null);
+      },
+    });
+  };
+
   return (
     <div className={"grid sm:grid-cols-2 gap-5"}>
       <CreateConferenceButton />
@@ -35,7 +59,15 @@ const ConferencesPage = () => {
       />
 
       {!isEmpty(conferenceData) && (
-        <ConferenceBlock conference={conferenceData}>
+        <ConferenceBlock
+          conference={conferenceData}
+          conferenceDeleteButton={
+            <ConferenceDeleteButton
+              onClick={handleConferenceDelete}
+              isDeleting={isConferenceDeleting}
+            />
+          }
+        >
           <>
             <ConferenceRegistrationButton conference={conferenceData} />
 

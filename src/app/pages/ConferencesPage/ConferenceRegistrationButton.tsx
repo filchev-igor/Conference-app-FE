@@ -1,5 +1,5 @@
 import useUserConferencesContext from "../../hooks/useUserConferencesContext.ts";
-import useUserRoleContext from "../../hooks/useUserRoleContext.ts";
+import useUserContext from "../../hooks/useUserContext.ts";
 import { ConferenceType } from "../../types/conferenceType.ts";
 import { ChangeEvent, FormEvent, useState } from "react";
 import toast from "react-hot-toast";
@@ -11,7 +11,7 @@ const ConferenceRegistrationButton = ({
 }) => {
   const { userConferences, handleUserConferencesChange } =
     useUserConferencesContext();
-  const { hasUserRole } = useUserRoleContext();
+  const { hasUserRole } = useUserContext();
 
   const [hasComment, setHasComment] = useState(false);
 

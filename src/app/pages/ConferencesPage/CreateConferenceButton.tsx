@@ -1,11 +1,10 @@
 import { generateRandomConference } from "../../utils/conference.ts";
 import LoadingSpinner from "../../components/spinners/LoadingSpinner.tsx";
-import { useUser } from "../../api/users/queryHooks.ts";
 import { useConferenceCreate } from "../../api/conferences/queryHooks.ts";
+import useUserContext from "../../hooks/useUserContext.ts";
 
 const CreateConferenceButton = () => {
-  //move to upper component!!!
-  const { hasAdminRole } = useUser();
+  const { hasAdminRole } = useUserContext();
   const { mutateConferenceCreate, isConferenceCreating } =
     useConferenceCreate();
 

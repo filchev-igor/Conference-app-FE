@@ -1,5 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { createConference, getConferencesList } from "./api.ts";
+import {
+  createConference,
+  deleteConference,
+  getConferencesList,
+} from "./api.ts";
 import { ConferenceType } from "../../types/conferenceType.ts";
 import { CONFERENCES_LIST_QUERY_KEY } from "./constants.ts";
 
@@ -31,5 +35,26 @@ export const useConferenceCreate = () => {
   return {
     mutateConferenceCreate: mutate,
     isConferenceCreating: isLoading,
+  };
+};
+
+export const useConferenceDelete = () => {
+  const queryClient = useQueryClient();
+
+  const { mutate, isLoading } = useMutation(
+    ({ conferenceId }: { conferenceId: number; onSuccess: () => void }) =>
+      deleteConference(conferenceId),
+    {
+      onSuccess: async (_data, { onSuccess }) => {
+        await queryClient.invalidateQueries([CONFERENCES_LIST_QUERY_KEY]);
+
+        onSuccess();
+      },
+    },
+  );
+
+  return {
+    mutateConferenceDelete: mutate,
+    isConferenceDeleting: isLoading,
   };
 };

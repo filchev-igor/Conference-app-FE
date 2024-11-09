@@ -1,16 +1,18 @@
 import { ConferenceType } from "../../types/conferenceType.ts";
 import { ReactElement, useCallback } from "react";
-import useUserRoleContext from "../../hooks/useUserRoleContext.ts";
+import useUserContext from "../../hooks/useUserContext.ts";
 import useUserConferencesContext from "../../hooks/useUserConferencesContext.ts";
 
 const ConferenceBlock = ({
   conference,
+  conferenceDeleteButton,
   children,
 }: {
   conference: ConferenceType;
+  conferenceDeleteButton: ReactElement;
   children: ReactElement | null;
 }) => {
-  const { hasUserRole } = useUserRoleContext();
+  const { hasUserRole } = useUserContext();
   const { userConferences } = useUserConferencesContext();
 
   const isUserRegistered = useCallback(() => {
@@ -81,6 +83,8 @@ const ConferenceBlock = ({
           ))}
         </ul>
       </div>
+
+      {conferenceDeleteButton}
 
       {!isUserRegistered && (
         <div>

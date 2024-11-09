@@ -1,8 +1,8 @@
 import { ConferenceType } from "../../types/conferenceType.ts";
 import { isEmpty } from "lodash";
 import { useConferencesList } from "../../api/conferences/queryHooks.ts";
-import { useUser } from "../../api/users/queryHooks.ts";
 import LoadingSpinner from "../../components/spinners/LoadingSpinner.tsx";
+import useUserContext from "../../hooks/useUserContext.ts";
 
 const ConferencesList = ({
   conferenceData,
@@ -11,8 +11,7 @@ const ConferencesList = ({
   conferenceData: ConferenceType | null;
   onClick: (conference: ConferenceType) => void;
 }) => {
-  //move to upper component!!!
-  const { hasAdminRole } = useUser();
+  const { hasAdminRole } = useUserContext();
   const { conferencesListData, isConferencesListDataLoading } =
     useConferencesList();
 
