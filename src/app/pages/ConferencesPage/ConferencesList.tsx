@@ -31,8 +31,8 @@ const ConferencesList = ({
   return conferencesListData!.map((conference) => (
     <div key={conference.id} className={"grid gap-1"}>
       <div>
-        <strong>Conference Title:</strong>
-        <span> {conference.title}</span>
+        <strong>Conference name:</strong>
+        <span> {conference.name}</span>
       </div>
 
       <div className={"w-full sm:w-fit"}>

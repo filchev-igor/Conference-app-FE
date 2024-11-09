@@ -1,14 +1,15 @@
 import Navbar from "../Navbar/Navbar.tsx";
 import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { USER_ROLES } from "../../constants/users.ts";
 import { ConferenceType } from "../../types/conferenceType.ts";
 import { Toaster } from "react-hot-toast";
 import "./styles.css";
 import { defaultBackgroundClassName } from "./styles.ts";
+import { useUser } from "../../api/users/queryHooks.ts";
 
 const PageLayout = () => {
-  const [userRole, setUserRole] = useState(USER_ROLES.USER);
+  const { userData, isUserDataLoading } = useUser();
+
   const [userConferences, setUserConferences] = useState<ConferenceType[]>([]);
   const [conferencesList, setConferencesList] = useState<ConferenceType[]>([]);
   const [backgroundClassName, setBackgroundClassName] = useState(
@@ -49,15 +50,17 @@ const PageLayout = () => {
 
   return (
     <>
-      <Navbar userRole={userRole} />
+      <Navbar userRole={userData?.role} />
 
       <Toaster position="bottom-left" reverseOrder={false} />
 
       <main className={`pt-10 pr-10 pl-28 pb-5`}>
         <Outlet
           context={{
-            userRole,
-            setUserRole,
+            userData,
+            isUserDataLoading,
+            hasUserRole,
+            hasAdminRole,
             userConferences,
             handleUserConferencesChange,
             conferencesList,

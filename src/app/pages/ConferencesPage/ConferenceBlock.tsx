@@ -1,8 +1,7 @@
 import { ConferenceType } from "../../types/conferenceType.ts";
-import { ReactElement, useCallback, useEffect, useState } from "react";
+import { ReactElement, useCallback } from "react";
 import useUserRoleContext from "../../hooks/useUserRoleContext.ts";
 import useUserConferencesContext from "../../hooks/useUserConferencesContext.ts";
-import ConferenceBlockPlaceholder from "./ConferenceBlockPlaceholder.tsx";
 
 const ConferenceBlock = ({
   conference,
@@ -14,8 +13,6 @@ const ConferenceBlock = ({
   const { hasUserRole } = useUserRoleContext();
   const { userConferences } = useUserConferencesContext();
 
-  const [isLoading, setIsLoading] = useState(true);
-
   const isUserRegistered = useCallback(() => {
     if (!hasUserRole) {
       return false;
@@ -24,30 +21,21 @@ const ConferenceBlock = ({
     userConferences.some(({ id }) => id === conference.id);
   }, [userConferences, conference, hasUserRole]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1_000);
-
-    return () => {
-      setIsLoading(true);
-    };
-  }, [conference]);
-
-  if (isLoading) {
-    return <ConferenceBlockPlaceholder />;
-  }
-
   return (
     <div className={"sm:col-span-2 mb-5"}>
       <h3>
-        <strong>Conference Title:</strong>
-        <span> {conference.title}</span>
+        <strong>Conference name:</strong>
+        <span> {conference.name}</span>
       </h3>
 
       <div>
         <strong>Date:</strong>
-        <span> {conference.date}</span>
+        <span>
+          {" "}
+          {new Date(conference.date).toLocaleDateString("ru-RU", {
+            timeZone: "UTC",
+          })}
+        </span>
       </div>
 
       <div>
@@ -97,7 +85,10 @@ const ConferenceBlock = ({
       {!isUserRegistered && (
         <div>
           <strong>Registration:</strong>
-          <span> {conference.registration.info}</span>
+          <span>
+            Please register in advance to secure your spot. Limited seats are
+            available
+          </span>
         </div>
       )}
 

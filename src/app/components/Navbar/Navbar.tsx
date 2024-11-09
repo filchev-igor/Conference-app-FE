@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { NAVBAR_PAGES } from "./constants.ts";
 import useAuth from "../../hooks/useAuth.ts";
 
-const Navbar = ({ userRole }: { userRole: string }) => {
+const Navbar = ({ userRole = "" }: { userRole?: string }) => {
   const { pathname } = useLocation();
 
   const { isAuthenticated, logout } = useAuth();

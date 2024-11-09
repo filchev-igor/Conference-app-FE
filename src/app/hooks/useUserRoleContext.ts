@@ -8,7 +8,8 @@ type OutletContextType = {
 };
 
 const useUserRoleContext = () => {
-  const { userRole, setUserRole } = useOutletContext<OutletContextType>();
+  const { userData, isUserDataLoading, hasUserRole, hasAdminRole } =
+    useOutletContext<OutletContextType>();
 
   const hasUserRole = userRole === USER_ROLES.USER;
   const hasAdminRole = userRole === USER_ROLES.ADMIN;
