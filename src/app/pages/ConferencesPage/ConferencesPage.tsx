@@ -69,9 +69,9 @@ const ConferencesPage = () => {
           }
         >
           <>
-            <ConferenceRegistrationButton conference={conferenceData} />
+            <ConferenceRegistrationButton conferenceId={conferenceData.id!} />
 
-            <ConferenceParticipants conferenceId={conferenceData.id ?? 0} />
+            <ConferenceParticipants conference={conferenceData} />
           </>
         </ConferenceBlock>
       )}

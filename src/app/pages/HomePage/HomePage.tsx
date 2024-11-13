@@ -32,10 +32,10 @@ const HomePage = () => {
           className={"bg-sky-500 w-full sm:w-fit"}
         >
           {isLoginTokenCreating ? (
-            <>
+            <div className={"flex"}>
               <LoadingSpinner />
-              Processing...
-            </>
+              Processing
+            </div>
           ) : (
             "Authorize"
           )}

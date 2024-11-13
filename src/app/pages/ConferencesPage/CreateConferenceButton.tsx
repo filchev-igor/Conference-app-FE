@@ -30,10 +30,10 @@ const CreateConferenceButton = () => {
         onClick={handleConferenceCreate}
       >
         {isConferenceCreating ? (
-          <>
+          <div className={"flex"}>
             <LoadingSpinner />
-            Processing...
-          </>
+            Processing
+          </div>
         ) : (
           "Create new conference"
         )}

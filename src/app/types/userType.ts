@@ -1,8 +1,10 @@
+import { ConferenceType } from "./conferenceType.ts";
+
 export type UserType = {
   id: number;
   name: string;
   email: string;
   role: string;
-  created_at: string;
-  updated_at: string;
+  conferences?: ConferenceType[];
+  backgroundClassName: string;
 };

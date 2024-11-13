@@ -1,36 +1,14 @@
 import Navbar from "../Navbar/Navbar.tsx";
 import { Outlet } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { ConferenceType } from "../../types/conferenceType.ts";
+import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import "./styles.css";
-import { defaultBackgroundClassName } from "./styles.ts";
 import { useUser } from "../../api/users/queryHooks.ts";
+import { BACKGROUND_CLASS_NAMES } from "../../constants/siteStyles.ts";
+import { getDashedText } from "../../utils/text.ts";
 
 const PageLayout = () => {
   const { userData, isUserDataLoading } = useUser();
-
-  const [userConferences, setUserConferences] = useState<ConferenceType[]>([]);
-  const [conferencesList, setConferencesList] = useState<ConferenceType[]>([]);
-  const [backgroundClassName, setBackgroundClassName] = useState(
-    defaultBackgroundClassName,
-  );
-
-  const handleUserConferencesChange = (newConference: ConferenceType) => {
-    const isUserParticipating = userConferences.some(
-      ({ id }) => id === newConference.id,
-    );
-
-    const newUserConferences = isUserParticipating
-      ? userConferences.filter(({ id }) => id !== newConference.id)
-      : [...userConferences, newConference];
-
-    setUserConferences(newUserConferences);
-  };
-
-  const handleConferenceListUpdate = (newConference: ConferenceType) => {
-    setConferencesList([...conferencesList, newConference]);
-  };
 
   useEffect(() => {
     const bodyTag = document.querySelector("body");
@@ -40,13 +18,15 @@ const PageLayout = () => {
     }
 
     const { 0: bodyClassName } = bodyTag.classList;
+    const defaultBackgroundClassName = getDashedText(
+      BACKGROUND_CLASS_NAMES.LINED_PAPER,
+    );
 
-    if (bodyClassName === backgroundClassName) {
-      return;
-    }
-
-    bodyTag.classList.toggle(backgroundClassName);
-  }, [backgroundClassName]);
+    bodyTag.classList.remove(bodyClassName);
+    bodyTag.classList.add(
+      userData?.backgroundClassName ?? defaultBackgroundClassName,
+    );
+  }, [userData?.backgroundClassName]);
 
   return (
     <>
@@ -59,12 +39,6 @@ const PageLayout = () => {
           context={{
             userData,
             isUserDataLoading,
-            userConferences,
-            handleUserConferencesChange,
-            conferencesList,
-            handleConferenceListUpdate,
-            backgroundClassName,
-            setBackgroundClassName,
           }}
         />
       </main>

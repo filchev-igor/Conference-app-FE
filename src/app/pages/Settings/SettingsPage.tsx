@@ -1,10 +1,28 @@
-import useBackgroundClassNameContext from "../../hooks/useBackgroundClassNameContext.ts";
 import { BACKGROUND_CLASS_NAMES } from "../../constants/siteStyles.ts";
 import { capitalizeFirstLetter, getDashedText } from "../../utils/text.ts";
 import "./styles.css";
+import { useUserUpdate } from "../../api/users/queryHooks.ts";
+import UseUserContext from "../../hooks/useUserContext.ts";
 
 const SettingsPage = () => {
-  const { setBackgroundClassName } = useBackgroundClassNameContext();
+  const { userData } = UseUserContext();
+
+  const { mutateUserUpdate, isUserUpdating } = useUserUpdate();
+
+  const handleBackgroundClassNameChange = (newBackgroundClassName: string) => {
+    if (isUserUpdating) {
+      return;
+    }
+
+    if (newBackgroundClassName === userData.backgroundClassName) {
+      return;
+    }
+
+    mutateUserUpdate({
+      backgroundClassName: newBackgroundClassName,
+      onSuccess: () => {},
+    });
+  };
 
   return (
     <div className={"grid-block grid-block-1 sm:grid-block-2"}>
@@ -16,13 +34,13 @@ const SettingsPage = () => {
         const capitalizedClassName = capitalizeFirstLetter(value);
         const newBackgroundClassName = getDashedText(value);
 
-        console.log(newBackgroundClassName);
-
         return (
           <div key={value} className={"text-center"}>
             <button
               type={"button"}
-              onClick={() => setBackgroundClassName(newBackgroundClassName)}
+              onClick={() =>
+                handleBackgroundClassNameChange(newBackgroundClassName)
+              }
               className={
                 "border border-purple-600 text-purple-600 rounded-none hover:bg-purple-600 hover:text-white w-48"
               }

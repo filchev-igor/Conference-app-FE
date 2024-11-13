@@ -1,7 +1,8 @@
-import { useQuery } from "react-query";
-import { getUser } from "./api.ts";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { getUser, updateUser } from "./api.ts";
 import { USER_QUERY_KEY } from "./constants.ts";
 import useAuth from "../../hooks/useAuth.ts";
+import useUserContext from "../../hooks/useUserContext.ts";
 
 export const useUser = () => {
   const { userId } = useAuth();
@@ -15,5 +16,32 @@ export const useUser = () => {
   return {
     userData: data,
     isUserDataLoading: isLoading,
+  };
+};
+
+export const useUserUpdate = () => {
+  const queryClient = useQueryClient();
+
+  const { userData } = useUserContext();
+
+  const { mutate, isLoading } = useMutation(
+    ({
+      backgroundClassName,
+    }: {
+      backgroundClassName: string;
+      onSuccess: () => void;
+    }) => updateUser(userData.id, backgroundClassName),
+    {
+      onSuccess: async (_data, { onSuccess }) => {
+        await queryClient.invalidateQueries([USER_QUERY_KEY]);
+
+        onSuccess();
+      },
+    },
+  );
+
+  return {
+    mutateUserUpdate: mutate,
+    isUserUpdating: isLoading,
   };
 };

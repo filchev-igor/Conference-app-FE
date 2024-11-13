@@ -4,7 +4,7 @@ import { USER_ROLES } from "../../constants/users.ts";
 export const NAVBAR_PAGES = [
   {
     isHidden: false,
-    role: [USER_ROLES.ADMIN, USER_ROLES.USER, USER_ROLES.EMPLOYEE],
+    role: null,
     name: "Home",
     to: PATH_NAMES.homePage,
   },

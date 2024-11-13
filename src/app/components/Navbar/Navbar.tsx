@@ -21,7 +21,7 @@ const Navbar = ({ userRole = "" }: { userRole?: string }) => {
             return null;
           }
 
-          if (!role.includes(userRole)) {
+          if (!!role?.length && !role.includes(userRole)) {
             return null;
           }
 
