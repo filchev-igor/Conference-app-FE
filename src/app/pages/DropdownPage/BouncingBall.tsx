@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const BouncingBall = () => {
   const ballRef = useRef(null);
-  const [position, setPosition] = React.useState({ x: 0, y: 0 });
-  const [velocity, setVelocity] = React.useState({ x: 2, y: 2 });
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [velocity] = useState({ x: 2, y: 2 });
 
   useEffect(() => {
     const moveBall = () => {
