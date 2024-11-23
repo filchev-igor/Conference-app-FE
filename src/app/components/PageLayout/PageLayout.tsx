@@ -44,8 +44,7 @@ const PageLayout = () => {
       return;
     }
 
-    bodyTag.classList.remove(bodyClassName);
-    bodyTag.classList.add(backgroundClassName);
+    bodyTag.classList.toggle(backgroundClassName);
   }, [backgroundClassName]);
 
   return (

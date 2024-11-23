@@ -26,16 +26,4 @@ export const NAVBAR_PAGES = [
     name: "Settings",
     to: PATH_NAMES.settingsPage,
   },
-  {
-    isHidden: false,
-    role: [USER_ROLES.ADMIN, USER_ROLES.USER, USER_ROLES.EMPLOYEE],
-    name: "Images",
-    to: PATH_NAMES.imagesPage,
-  },
-  {
-    isHidden: false,
-    role: [USER_ROLES.ADMIN, USER_ROLES.USER, USER_ROLES.EMPLOYEE],
-    name: "Dropdown",
-    to: PATH_NAMES.dropdownPage,
-  },
 ];

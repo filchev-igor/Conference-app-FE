@@ -16,6 +16,8 @@ const SettingsPage = () => {
         const capitalizedClassName = capitalizeFirstLetter(value);
         const newBackgroundClassName = getDashedText(value);
 
+        console.log(newBackgroundClassName);
+
         return (
           <div key={value} className={"text-center"}>
             <button

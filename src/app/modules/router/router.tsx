@@ -5,8 +5,6 @@ import HomePage from "../../pages/HomePage/HomePage.tsx";
 import ConferencesPage from "../../pages/ConferencesPage/ConferencesPage.tsx";
 import UsersListPage from "../../pages/UsersListPage/UsersListPage.tsx";
 import SettingsPage from "../../pages/Settings/SettingsPage.tsx";
-import ImagesPage from "../../pages/ImagesPage/ImagesPage.tsx";
-import DropdownPage from "../../pages/DropdownPage/DropdownPage.tsx";
 
 export const router = createBrowserRouter(
   [
@@ -30,14 +28,6 @@ export const router = createBrowserRouter(
         {
           path: PATH_NAMES.settingsPage,
           element: <SettingsPage />,
-        },
-        {
-          path: PATH_NAMES.imagesPage,
-          element: <ImagesPage />,
-        },
-        {
-          path: PATH_NAMES.dropdownPage,
-          element: <DropdownPage />,
         },
       ],
     },
