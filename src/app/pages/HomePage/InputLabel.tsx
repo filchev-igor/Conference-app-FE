@@ -16,7 +16,7 @@ const InputLabel = ({
   const id = useId();
 
   return (
-    <div>
+    <div className={"w-3/6"}>
       <label
         htmlFor={id}
         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"

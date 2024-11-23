@@ -1,12 +1,11 @@
 import InputLabel from "./InputLabel.tsx";
 import LoadingSpinner from "../../components/spinners/LoadingSpinner.tsx";
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import toast from "react-hot-toast";
 import { useLoginTokenCreate } from "../../api/login/queryHooks.ts";
 import useAuth from "../../hooks/useAuth.ts";
-import HomePageLayout from "./HomePageLayout.tsx";
 
-const LoginBlock = () => {
+const LoginBlock = ({ children }: { children: ReactElement }) => {
   const { setToken } = useAuth();
 
   const { mutateLoginTokenCreate, isLoginTokenCreating } =
@@ -41,12 +40,12 @@ const LoginBlock = () => {
       setEmail("");
       setPassword("");
     } catch (error: any) {
-      toast.error(error?.message || "An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     }
   };
 
   return (
-    <HomePageLayout>
+    <>
       <InputLabel
         label={"E-mail"}
         placeholder={"username@example.com"}
@@ -62,22 +61,26 @@ const LoginBlock = () => {
         onChange={setPassword}
       />
 
-      <button
-        type={"button"}
-        onClick={handleLoginTokenCreate}
-        className={`${!isButtonDisabled ? "bg-sky-500" : "bg-gray-500"} w-full sm:w-fit`}
-        disabled={isButtonDisabled}
-      >
-        {isLoginTokenCreating ? (
-          <div className={"flex"}>
-            <LoadingSpinner />
-            Processing
-          </div>
-        ) : (
-          "Authorize"
-        )}
-      </button>
-    </HomePageLayout>
+      <div className={"flex w-3/6 justify-between"}>
+        <button
+          type={"button"}
+          onClick={handleLoginTokenCreate}
+          className={`${!isButtonDisabled ? "bg-sky-500" : "bg-gray-500"} w-full sm:w-fit`}
+          disabled={isButtonDisabled}
+        >
+          {isLoginTokenCreating ? (
+            <div className={"flex"}>
+              <LoadingSpinner />
+              Processing
+            </div>
+          ) : (
+            "Authorize"
+          )}
+        </button>
+
+        {children}
+      </div>
+    </>
   );
 };
 

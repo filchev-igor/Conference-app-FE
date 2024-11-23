@@ -1,12 +1,12 @@
 import InputLabel from "./InputLabel.tsx";
 import LoadingSpinner from "../../components/spinners/LoadingSpinner.tsx";
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import toast from "react-hot-toast";
 import { useUserCreate } from "../../api/users/queryHooks.ts";
 import { useLoginTokenCreate } from "../../api/login/queryHooks.ts";
 import useAuth from "../../hooks/useAuth.ts";
 
-const RegistrationBlock = () => {
+const RegistrationBlock = ({ children }: { children: ReactElement }) => {
   const { setToken } = useAuth();
 
   const { mutateUserCreate, isUserCreating } = useUserCreate();
@@ -45,7 +45,7 @@ const RegistrationBlock = () => {
       setEmail("");
       setPassword("");
     } catch (error: any) {
-      toast.error(error?.message || "An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     }
   };
 
@@ -73,21 +73,25 @@ const RegistrationBlock = () => {
         onChange={setPassword}
       />
 
-      <button
-        type={"button"}
-        onClick={handleLoginTokenCreate}
-        className={`${!isButtonDisabled ? "bg-sky-500" : "bg-gray-500"} w-full sm:w-fit`}
-        disabled={isButtonDisabled}
-      >
-        {isUserCreating ? (
-          <div className={"flex"}>
-            <LoadingSpinner />
-            Processing
-          </div>
-        ) : (
-          "Register"
-        )}
-      </button>
+      <div className={"flex w-3/6 justify-between"}>
+        <button
+          type={"button"}
+          onClick={handleLoginTokenCreate}
+          className={`${!isButtonDisabled ? "bg-sky-500" : "bg-gray-500"} w-full sm:w-fit`}
+          disabled={isButtonDisabled}
+        >
+          {isUserCreating ? (
+            <div className={"flex"}>
+              <LoadingSpinner />
+              Processing
+            </div>
+          ) : (
+            "Register"
+          )}
+        </button>
+
+        {children}
+      </div>
     </>
   );
 };

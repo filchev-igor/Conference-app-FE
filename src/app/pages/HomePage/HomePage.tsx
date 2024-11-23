@@ -9,14 +9,34 @@ const HomePage = () => {
 
   const [isLogging, setIsLogging] = useState(true);
 
-  if (!isAuthenticated && isLogging) {
-    <LoginBlock />;
-  }
+  if (!isAuthenticated) {
+    if (isLogging) {
+      return (
+        <HomePageLayout>
+          <LoginBlock>
+            <strong
+              className={"content-center cursor-pointer"}
+              onClick={() => setIsLogging(false)}
+            >
+              Register
+            </strong>
+          </LoginBlock>
+        </HomePageLayout>
+      );
+    }
 
-  if (!isAuthenticated && !isLogging) {
-    <HomePageLayout>
-      <RegistrationBlock />
-    </HomePageLayout>;
+    return (
+      <HomePageLayout>
+        <RegistrationBlock>
+          <strong
+            className={"content-center cursor-pointer"}
+            onClick={() => setIsLogging(true)}
+          >
+            Login
+          </strong>
+        </RegistrationBlock>
+      </HomePageLayout>
+    );
   }
 
   return (
