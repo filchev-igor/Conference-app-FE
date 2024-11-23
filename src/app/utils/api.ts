@@ -21,7 +21,9 @@ export const fetchGet = async ({
     });
 
     if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+      const error = await response.json();
+
+      throw new Error(error.message || `Response status: ${response.status}`);
     }
 
     if (response.status === 204) {

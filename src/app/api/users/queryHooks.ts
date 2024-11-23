@@ -1,8 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getUser, getUsersList, updateUser } from "./api.ts";
+import { createUser, getUser, getUsersList, updateUser } from "./api.ts";
 import { USER_QUERY_KEY, USERS_LIST_QUERY_KEY } from "./constants.ts";
 import useAuth from "../../hooks/useAuth.ts";
 import useUserContext from "../../hooks/useUserContext.ts";
+import { CreateUserType } from "../../types/userType.ts";
 
 export const useUsersList = () => {
   const { data, isLoading } = useQuery(
@@ -29,6 +30,17 @@ export const useUser = () => {
   return {
     userData: data,
     isUserDataLoading: isLoading,
+  };
+};
+
+export const useUserCreate = () => {
+  const { mutateAsync, isLoading } = useMutation(
+    ({ data }: { data: CreateUserType }) => createUser(data),
+  );
+
+  return {
+    mutateUserCreate: mutateAsync,
+    isUserCreating: isLoading,
   };
 };
 
