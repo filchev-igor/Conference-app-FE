@@ -14,10 +14,14 @@ const Navbar = ({ userRole = "" }: { userRole?: string }) => {
       }
     >
       <div className={"flex justify-end gap-3 mr-10"}>
-        {NAVBAR_PAGES.map(({ name, to, role, isHidden }) => {
+        {NAVBAR_PAGES.map(({ name, to, role, isHidden, isPublic }) => {
           const isHighlighted = pathname === to;
 
           if (isHidden) {
+            return null;
+          }
+
+          if (!isPublic) {
             return null;
           }
 
